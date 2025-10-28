@@ -1,20 +1,33 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore'
 import { useNotificationStore } from '@/stores/notificationsStore'
 
 const name = ref('')
 const email = ref('')
 const password = ref('')
 const router = useRouter()
+const authStore = useAuthStore()
 const notifications = useNotificationStore()
 
-function handleRegister() {
-  if (name.value && email.value && password.value) {
-    notifications.addSuccess('Cadastro realizado com sucesso! (Simulação)')
-    router.push({ name: 'login' })
-  } else {
+async function handleRegister() {
+  if (!name.value || !email.value || !password.value) {
     notifications.addError('Por favor, preencha todos os campos.')
+    return
+  }
+
+  const success = await authStore.register({
+    name: name.value,
+    email: email.value,
+    password: password.value
+  })
+
+  if (success) {
+    notifications.addSuccess('Cadastro realizado com sucesso!')
+    router.push({ name: 'home' })
+  } else {
+    notifications.addError('Não foi possível realizar o cadastro. Verifique seus dados.')
   }
 }
 </script>
@@ -24,7 +37,7 @@ function handleRegister() {
     <form @submit.prevent="handleRegister" class="register-form">
       <h2>Cadastro</h2>
       <div class="form-group">
-        <label for="name">Nome:</label>
+        <label for="name">Nome de usuário:</label>
         <input type="text" id="name" v-model="name" required />
       </div>
       <div class="form-group">

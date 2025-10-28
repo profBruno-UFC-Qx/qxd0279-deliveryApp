@@ -49,5 +49,27 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('user');
   }
 
-  return { user, token, login, logout, isAuthenticated, isAdmin };
+  async function register(credentials: { name: string, email: string; password: string }) {
+    try {
+      const response = await api.post('/auth/local/register', {
+        username: credentials.name,
+        email: credentials.email,
+        password: credentials.password
+      });
+      const { jwt, user: userData } = response.data;
+      
+      const role = await getRoles(jwt)
+      user.value = { ...userData, role, jwt} ;
+
+      localStorage.setItem('token', jwt);
+      localStorage.setItem('user', JSON.stringify(user.value));
+
+      return true;
+    } catch (error) {
+      console.error('Erro no cadastro:', error);
+      return false;
+    }
+  }
+
+  return { user, token, login, logout, register, isAuthenticated, isAdmin };
 });
