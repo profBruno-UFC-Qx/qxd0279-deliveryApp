@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
+import { getMenuItems } from '@/services/menuService'
+import type { MenuItem } from '@/types'
 import MenuItemCard from '@/components/MenuItemCard.vue'
-import { useMenuStore } from '@/stores/menuStore'
 
-const menuStore = useMenuStore()
+const items = ref<MenuItem[]>([])
 
-onMounted(() => {
-  menuStore.fetchItems()
+onMounted(async () => {
+  items.value = await getMenuItems()
 })
 </script>
 
@@ -14,11 +15,7 @@ onMounted(() => {
   <div class="home-view">
     <h1>Nosso Cardápio</h1>
     <div class="menu-items">
-      <MenuItemCard
-        v-for="item in menuStore.items"
-        :key="item.id"
-        :item="item"
-      />
+      <MenuItemCard v-for="item in items" :key="item.id" :item="item" />
     </div>
   </div>
 </template>
