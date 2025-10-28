@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import NavBar from '@/components/NavBar.vue'
+import ToastContainer from './components/ToastContainer.vue';
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import NavBar from '@/components/NavBar.vue'
   <main>
     <RouterView />
   </main>
+  <ToastContainer />
 </template>
 
 <style>

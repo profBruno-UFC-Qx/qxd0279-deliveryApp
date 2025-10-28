@@ -2,11 +2,13 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
+import { useNotificationStore } from '@/stores/notificationsStore'
 
 const email = ref('')
 const password = ref('')
 const router = useRouter()
 const authStore = useAuthStore()
+const notifications = useNotificationStore()
 
 function handleLogin() {
   // Simulação de login
@@ -14,7 +16,7 @@ function handleLogin() {
     authStore.login(email.value) // Usando o email como nome de usuário
     router.push({ name: 'home' })
   } else {
-    alert('Por favor, preencha e-mail e senha.')
+    notifications.addError('Por favor, preencha e-mail e senha.')
   }
 }
 </script>

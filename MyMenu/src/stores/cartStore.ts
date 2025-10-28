@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { MenuItem } from './menuStore'
+import type { MenuItem } from '@/types'
+import { useAuthStore } from './authStore'
 
 export interface CartItem {
   id: number // Usando o id do MenuItem para simplificar
@@ -22,6 +23,12 @@ export const useCartStore = defineStore('cart', () => {
   })
 
   function addItem(menuItem: MenuItem) {
+    const authStore = useAuthStore()
+    if (!authStore.isAuthenticated) {
+      alert('Você precisa estar logado para adicionar itens ao carrinho.')
+      return
+    }
+
     const existingItem = items.value.find(cartItem => cartItem.id === menuItem.id)
 
     if (existingItem) {

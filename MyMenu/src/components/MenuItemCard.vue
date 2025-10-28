@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { MenuItem } from '@/stores/menuStore'
+import type { MenuItem } from '@/types/'
 import { useCartStore } from '@/stores/cartStore'
 import { useAuthStore } from '@/stores/authStore'
+import { useNotificationStore } from '@/stores/notificationsStore'
 import { useRouter } from 'vue-router'
 
 const props = defineProps<{
@@ -10,15 +11,17 @@ const props = defineProps<{
 
 const cartStore = useCartStore()
 const authStore = useAuthStore()
+const notifications = useNotificationStore()
+
 const router = useRouter()
 
 function addToCart() {
   if (!authStore.isAuthenticated) {
-    alert('Você precisa estar logado para adicionar itens ao carrinho.')
+    notifications.addError('Você precisa estar logado para adicionar itens ao carrinho.')
     router.push({ name: 'login' })
   } else {
     cartStore.addItem(props.item)
-    alert(`"${props.item.name}" foi adicionado ao carrinho!`)
+    notifications.addSuccess(`"${props.item.name}" foi adicionado ao carrinho!`)
   }
 }
 

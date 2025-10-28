@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useNotificationStore } from '@/stores/notificationsStore'
 
 const name = ref('')
 const email = ref('')
 const password = ref('')
 const router = useRouter()
+const notifications = useNotificationStore()
 
 function handleRegister() {
-  // Simulação de cadastro
   if (name.value && email.value && password.value) {
-    alert('Cadastro realizado com sucesso! (Simulação)')
+    notifications.addSuccess('Cadastro realizado com sucesso! (Simulação)')
     router.push({ name: 'login' })
   } else {
-    alert('Por favor, preencha todos os campos.')
+    notifications.addError('Por favor, preencha todos os campos.')
   }
 }
 </script>

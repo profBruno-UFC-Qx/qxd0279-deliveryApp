@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { useAuthStore } from '@/stores/authStore'
 
@@ -29,22 +29,13 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized) => {
   const authStore = useAuthStore()
-  
-  // Tenta inicializar o estado de autenticação a partir do localStorage
-  // Isso é importante para manter o usuário logado entre atualizações da página
-  if (!authStore.isAuthenticated) {
-    authStore.initialize()
-  }
-
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 
   if (requiresAuth && !authStore.isAuthenticated) {
-    next({ name: 'login' })
-  } else {
-    next()
-  }
+    return({ name: 'login' })
+  } 
 })
 
 export default router
