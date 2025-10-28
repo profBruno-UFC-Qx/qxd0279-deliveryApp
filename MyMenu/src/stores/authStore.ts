@@ -3,7 +3,6 @@ import { computed, ref } from 'vue';
 import api from '@/services/api';
 import type { User } from '@/types';
 
-// Tente carregar o usuário do localStorage ao iniciar
 const initialUser = JSON.parse(localStorage.getItem('user') || "{}");
 
 export const useAuthStore = defineStore('auth', () => {

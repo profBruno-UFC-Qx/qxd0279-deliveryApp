@@ -27,7 +27,7 @@ function handleLogout() {
         <router-link :to="{ name: 'login' }">Login</router-link>
       </template>
       <template v-else>
-        <span>Olá, {{ authStore.user?.name }}</span>
+        <span>Olá, {{ authStore.user?.username }}</span>
         <a @click.prevent="handleLogout" href="#">Sair</a>
       </template>
     </div>

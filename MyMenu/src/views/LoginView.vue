@@ -13,7 +13,7 @@ const notifications = useNotificationStore()
 function handleLogin() {
   // Simulação de login
   if (email.value && password.value) {
-    authStore.login(email.value) // Usando o email como nome de usuário
+    authStore.login({ identifier: email.value, password: password.value }) // Usando o email como nome de usuário
     router.push({ name: 'home' })
   } else {
     notifications.addError('Por favor, preencha e-mail e senha.')
