@@ -1,35 +1,41 @@
 <script setup lang="ts">
-import { useCartStore } from '@/stores/cartStore'
+import type { CartItem } from '@/stores/cartStore';
 
-const cartStore = useCartStore()
 
 function formatCurrency(value: number) {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
+
+const items: CartItem[] = [{
+  id: 1,
+  name: 'Mocked Item',
+  quantity: 10,
+  price: 10.00
+}]
 </script>
 
 <template>
   <div class="cart-view">
     <h2>Seu Carrinho</h2>
-    <div v-if="cartStore.items.length === 0" class="empty-cart">
+    <div class="empty-cart">
       <p>Seu carrinho está vazio.</p>
       <router-link :to="{ name: 'home' }">Ver cardápio</router-link>
     </div>
-    <div v-else class="cart-content">
+    <div>
       <ul class="cart-items">
-        <li v-for="cartItem in cartStore.items" :key="cartItem.id" class="cart-item">
+        <li v-for="cartItem in items" :key="cartItem.id" class="cart-item">
           <div class="item-info">
             <span class="item-name">{{ cartItem.name }} ({{ cartItem.quantity }}x)</span>
             <span class="item-price">{{ formatCurrency(cartItem.price * cartItem.quantity) }}</span>
           </div>
-          <button @click="cartStore.removeItem(cartItem.id)" class="remove-btn">Remover</button>
+          <button class="remove-btn">Remover</button>
         </li>
       </ul>
       <div class="cart-summary">
-        <p>Total de itens: {{ cartStore.totalItems }}</p>
-        <p class="total-price">Total: {{ formatCurrency(cartStore.totalPrice) }}</p>
+        <p>Total de itens: </p>
+        <p class="total-price">Total: </p>
         <button class="checkout-btn">Finalizar Pedido</button>
-        <button @click="cartStore.clearCart()" class="clear-btn">Limpar Carrinho</button>
+        <button class="clear-btn">Limpar Carrinho</button>
       </div>
     </div>
   </div>

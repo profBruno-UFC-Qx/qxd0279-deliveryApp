@@ -9,7 +9,6 @@ export async function getMenuItems(): Promise<MenuItem[]> {
     return data.data
   } catch (error) {
     console.error('Erro ao buscar itens do cardápio:', error)
-    // Em um app real, poderíamos ter um tratamento de erro mais robusto
     return []
   }
 }

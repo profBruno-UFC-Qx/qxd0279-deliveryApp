@@ -1,29 +1,11 @@
 <script setup lang="ts">
 import type { MenuItem } from '@/types/'
-import { useCartStore } from '@/stores/cartStore'
-import { useAuthStore } from '@/stores/authStore'
-import { useNotificationStore } from '@/stores/notificationsStore'
-import { useRouter } from 'vue-router'
 
 const props = defineProps<{
   item: MenuItem
 }>()
 
-const cartStore = useCartStore()
-const authStore = useAuthStore()
-const notifications = useNotificationStore()
 
-const router = useRouter()
-
-function addToCart() {
-  if (!authStore.isAuthenticated) {
-    notifications.addError('Você precisa estar logado para adicionar itens ao carrinho.')
-    router.push({ name: 'login' })
-  } else {
-    cartStore.addItem(props.item)
-    notifications.addSuccess(`"${props.item.name}" foi adicionado ao carrinho!`)
-  }
-}
 
 function formatCurrency(value: number) {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -38,7 +20,7 @@ function formatCurrency(value: number) {
       <p>{{ item.description }}</p>
       <div class="item-footer">
         <span class="price">{{ formatCurrency(item.price) }}</span>
-        <button @click="addToCart">Adicionar</button>
+        <button >Adicionar</button>
       </div>
     </div>
   </div>

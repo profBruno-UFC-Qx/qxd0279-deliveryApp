@@ -1,37 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/authStore'
-import { useNotificationStore } from '@/stores/notificationsStore'
 
-const email = ref('')
-const password = ref('')
-const router = useRouter()
-const authStore = useAuthStore()
-const notifications = useNotificationStore()
-
-function handleLogin() {
-  // Simulação de login
-  if (email.value && password.value) {
-    authStore.login({ identifier: email.value, password: password.value }) // Usando o email como nome de usuário
-    router.push({ name: 'home' })
-  } else {
-    notifications.addError('Por favor, preencha e-mail e senha.')
-  }
-}
 </script>
 
 <template>
   <div class="login-view">
-    <form @submit.prevent="handleLogin" class="login-form">
+    <form class="login-form">
       <h2>Login</h2>
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" id="email" v-model="email" required />
+        <input type="email" id="email" />
       </div>
       <div class="form-group">
         <label for="password">Senha:</label>
-        <input type="password" id="password" v-model="password" required />
+        <input type="password" id="password"/>
       </div>
       <button type="submit">Entrar</button>
       <p class="register-link">

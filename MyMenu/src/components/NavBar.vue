@@ -1,16 +1,5 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/authStore'
-import { useCartStore } from '@/stores/cartStore'
-import { useRouter } from 'vue-router'
 
-const authStore = useAuthStore()
-const cartStore = useCartStore()
-const router = useRouter()
-
-function handleLogout() {
-  authStore.logout()
-  router.push({ name: 'login' })
-}
 </script>
 
 <template>
@@ -21,14 +10,14 @@ function handleLogout() {
     <div class="navbar-links">
       <router-link :to="{ name: 'home' }">Cardápio</router-link>
       <router-link :to="{ name: 'cart' }">
-        Carrinho ({{ cartStore.totalItems }})
+        Carrinho 
       </router-link>
-      <template v-if="!authStore.isAuthenticated">
+      <template >
         <router-link :to="{ name: 'login' }">Login</router-link>
       </template>
-      <template v-else>
-        <span>Olá, {{ authStore.user?.username }}</span>
-        <a @click.prevent="handleLogout" href="#">Sair</a>
+      <template >
+        <span>Olá, </span>
+        <a>Sair</a>
       </template>
     </div>
   </nav>
